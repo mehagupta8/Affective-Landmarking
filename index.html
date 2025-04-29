@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Spectrum Visualizations</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --background-color: #f5f6fa;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .header p {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            margin: 0;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title::after {
+            content: "↗";
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .card-content {
+            padding: 1rem;
+            height: 200px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: auto;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .overlay-content {
+            background: var(--card-background);
+            border-radius: 8px;
+            width: 90%;
+            height: 95%;
+            max-width: 1200px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .overlay.active .overlay-content {
+            transform: scale(1);
+        }
+
+        .overlay-title {
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .overlay-iframe {
+            flex: 1;
+            border: none;
+            width: 100%;
+            height: 100%;
+            pointer-events: auto;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .analysis-panel {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .analysis-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .analysis-section h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .analysis-section p {
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .emotion-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .emotion-stat {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .emotion-stat h4 {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+
+        .emotion-stat p {
+            margin: 0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+
+            .overlay-content {
+                width: 95%;
+                height: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Emotion Spectrum Visualizations</h1>
+        <p>Interactive visualizations of emotional annotations in text</p>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            <div class="card" data-chart="subject_1_emotion_chart.html" data-title="Subject 1">
+                <h2 class="card-title">Subject 1</h2>
+                <div class="card-content">
+                    <iframe src="subject_1_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_2_emotion_chart.html" data-title="Subject 2">
+                <h2 class="card-title">Subject 2</h2>
+                <div class="card-content">
+                    <iframe src="subject_2_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_3_emotion_chart.html" data-title="Subject 3">
+                <h2 class="card-title">Subject 3</h2>
+                <div class="card-content">
+                    <iframe src="subject_3_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_4_emotion_chart.html" data-title="Subject 4">
+                <h2 class="card-title">Subject 4</h2>
+                <div class="card-content">
+                    <iframe src="subject_4_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_5_emotion_chart.html" data-title="Subject 5">
+                <h2 class="card-title">Subject 5</h2>
+                <div class="card-content">
+                    <iframe src="subject_5_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_6_emotion_chart.html" data-title="Subject 6">
+                <h2 class="card-title">Subject 6</h2>
+                <div class="card-content">
+                    <iframe src="subject_6_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_7_emotion_chart.html" data-title="Subject 7">
+                <h2 class="card-title">Subject 7</h2>
+                <div class="card-content">
+                    <iframe src="subject_7_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_8_emotion_chart.html" data-title="Subject 8">
+                <h2 class="card-title">Subject 8</h2>
+                <div class="card-content">
+                    <iframe src="subject_8_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_9_emotion_chart.html" data-title="Subject 9">
+                <h2 class="card-title">Subject 9</h2>
+                <div class="card-content">
+                    <iframe src="subject_9_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_10_emotion_chart.html" data-title="Subject 10">
+                <h2 class="card-title">Subject 10</h2>
+                <div class="card-content">
+                    <iframe src="subject_10_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_11_emotion_chart.html" data-title="Subject 11">
+                <h2 class="card-title">Subject 11</h2>
+                <div class="card-content">
+                    <iframe src="subject_11_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_12_emotion_chart.html" data-title="Subject 12">
+                <h2 class="card-title">Subject 12</h2>
+                <div class="card-content">
+                    <iframe src="subject_12_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_13_emotion_chart.html" data-title="Subject 13">
+                <h2 class="card-title">Subject 13</h2>
+                <div class="card-content">
+                    <iframe src="subject_13_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_14_emotion_chart.html" data-title="Subject 14">
+                <h2 class="card-title">Subject 14</h2>
+                <div class="card-content">
+                    <iframe src="subject_14_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_15_emotion_chart.html" data-title="Subject 15">
+                <h2 class="card-title">Subject 15</h2>
+                <div class="card-content">
+                    <iframe src="subject_15_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_16_emotion_chart.html" data-title="Subject 16">
+                <h2 class="card-title">Subject 16</h2>
+                <div class="card-content">
+                    <iframe src="subject_16_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_17_emotion_chart.html" data-title="Subject 17">
+                <h2 class="card-title">Subject 17</h2>
+                <div class="card-content">
+                    <iframe src="subject_17_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_18_emotion_chart.html" data-title="Subject 18">
+                <h2 class="card-title">Subject 18</h2>
+                <div class="card-content">
+                    <iframe src="subject_18_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_19_emotion_chart.html" data-title="Subject 19">
+                <h2 class="card-title">Subject 19</h2>
+                <div class="card-content">
+                    <iframe src="subject_19_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_20_emotion_chart.html" data-title="Subject 20">
+                <h2 class="card-title">Subject 20</h2>
+                <div class="card-content">
+                    <iframe src="subject_20_emotion_chart.html"></iframe>
+                </div>
+            </div>
+            <div class="card" data-chart="subject_21_emotion_chart.html" data-title="Subject 21">
+                <h2 class="card-title">Subject 21</h2>
+                <div class="card-content">
+                    <iframe src="subject_21_emotion_chart.html"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay">
+        <div class="overlay-content">
+            <h2 class="overlay-title">
+                <span class="overlay-title-text"></span>
+                <button class="close-button">&times;</button>
+            </h2>
+            <iframe class="overlay-iframe"></iframe>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            const overlay = document.querySelector('.overlay');
+            const overlayContent = document.querySelector('.overlay-content');
+            const overlayIframe = document.querySelector('.overlay-iframe');
+            const overlayTitle = document.querySelector('.overlay-title-text');
+            const closeButton = document.querySelector('.close-button');
+
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const chartUrl = this.getAttribute('data-chart');
+                    const title = this.getAttribute('data-title');
+                    
+                    overlayTitle.textContent = title;
+                    overlayIframe.src = chartUrl;
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            closeButton.addEventListener('click', function() {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    overlayIframe.src = '';
+                }, 300);
+            });
+
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    setTimeout(() => {
+                        overlayIframe.src = '';
+                    }, 300);
+                }
+            });
+        });
+
+        function openOverlay(chartFile, title) {
+            document.getElementById('overlay').style.visibility = 'visible';
+            document.getElementById('overlay').style.opacity = '1';
+            document.body.style.overflow = 'hidden';
+            
+            const content = document.getElementById('overlay-content');
+            content.innerHTML = `
+                <div class="overlay-header">
+                    <h2>${title}</h2>
+                    <button class="close-button" onclick="closeOverlay()">×</button>
+                </div>
+                <div class="overlay-iframe-container">
+                    <iframe src="${chartFile}" class="overlay-iframe"></iframe>
+                </div>
+                <div class="analysis-panel">
+                    <div class="analysis-section">
+                        <h3>Emotional Distribution</h3>
+                        <div class="emotion-stats">
+                            <div class="emotion-stat">
+                                <h4>Most Prevalent Emotion</h4>
+                                <p>Fear (32%)</p>
+                            </div>
+                            <div class="emotion-stat">
+                                <h4>Emotional Diversity</h4>
+                                <p>High - 7 distinct emotions</p>
+                            </div>
+                            <div class="emotion-stat">
+                                <h4>Emotional Transitions</h4>
+                                <p>Frequent shifts between fear and anger</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analysis-section">
+                        <h3>Key Insights</h3>
+                        <p>This spectrum shows a narrative that oscillates between fear and anger, with moments of wonder and sadness. The emotional journey reflects a story of racial tension and personal struggle, with fear being the dominant emotion throughout the text.</p>
+                    </div>
+                    <div class="analysis-section">
+                        <h3>Notable Patterns</h3>
+                        <p>• Strong correlation between fear and moments of confrontation<br>
+                           • Anger often follows moments of injustice<br>
+                           • Wonder appears during reflective moments<br>
+                           • Sadness is present in moments of isolation</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html> 

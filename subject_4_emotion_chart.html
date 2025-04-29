@@ -1,0 +1,87 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Emotion Spectrum Analysis</title>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <style>
+            .analysis-panel {
+                background: #f8f9fa;
+                padding: 1.5rem;
+                border-radius: 0.5rem;
+                margin-top: 1rem;
+            }
+            .analysis-section {
+                margin-bottom: 1.5rem;
+            }
+            .analysis-section h3 {
+                color: #333;
+                margin-bottom: 0.5rem;
+                font-size: 1.1rem;
+            }
+            .analysis-section p {
+                color: #666;
+                line-height: 1.5;
+                margin: 0;
+            }
+            .emotion-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            .emotion-stat {
+                background: white;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .emotion-stat h4 {
+                margin: 0 0 0.5rem 0;
+                color: #333;
+            }
+            .emotion-stat p {
+                margin: 0;
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="emotion-chart-container" style="width: 100%; height: 200px;"></div>
+        <div class="analysis-panel">
+            <div class="analysis-section">
+                <h3>Emotional Distribution</h3>
+                <div class="emotion-stats">
+                    <div class="emotion-stat">
+                        <h4>Most Prevalent Emotion</h4>
+                        <p>No emotions (0.0%)</p>
+                    </div>
+                    <div class="emotion-stat">
+                        <h4>Emotional Diversity</h4>
+                        <p>None - 0 distinct emotions</p>
+                    </div>
+                    <div class="emotion-stat">
+                        <h4>Emotional Transitions</h4>
+                        <p>0 significant transitions</p>
+                    </div>
+                </div>
+            </div>
+            <div class="analysis-section">
+                <h3>Key Insights</h3>
+                <p>No emotional annotations found in this text.</p>
+            </div>
+            <div class="analysis-section">
+                <h3>Notable Patterns</h3>
+                <p>• No emotional patterns detected</p>
+            </div>
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var plotlyData = {"data":[{"hoverinfo":"text","hovertext":"Complete Sentence:\u003cbr\u003e\ufeffSomeone in the audience asks the man promoting his new book on humor what makes something funny. His answer is what you expect\u2014context. After a pause he adds that if someone said something, like about someone, and you were with your friends you would probably laugh, but if they said it out in public where black people could hear what was said, you might not, probably would not. Only then do you realize you are among \u201cthe others out in public\u201d and not among \u201cfriends.\u201d\n________________\nNot long ago you are in a room where someone asks the philosopher Judith Butler what makes language hurtful. You can feel everyone lean in. Our very being exposes us to the address of another, she answers. We suer from the condition of being addressable. Our emotional openness, she adds, is carried by our addressability. Language navigates this. For so long you thought the ambition of racist language was to denigrate and erase you as a person. After considering Butler\u2019s remarks, you begin to understand yourself as rendered hypervisible in the face of such language acts. Language that feels hurtful is intended to exploit all the ways that you are present. Your alertness, your openness, and your desire to engage actually demand your presence, your looking up, your talking back, and, as insane as it is, saying please.\n________________\nStanding outside the conference room, unseen by the two men waiting for the others to arrive, you hear one say to the other that being around black people is like watching a foreign lm without translation. Because you will spend the next two hours around the round table that makes conversing easier, you consider waiting a few minutes before entering the room.\n________________\nThe real estate woman, who didn\u2019t fathom she could have made an appointment to show her house to you, spends much of the walkthrough telling your friend, repeatedly, how comfortable she feels around her. Neither you nor your friend bothers to ask who is making her feel uncomfortable.\n________________\nThe man at the cash register wants to know if you think your card will work. If this is his routine, he didn\u2019t use it on the friend who went before you. As she picks up her bag, she looks to see what you will say. She says nothing. You want her to say something\u2014 both as witness and as a friend. She is not you; her silence says so. Because you are watching all this take place even as you participate in it, you say nothing as well. Come over here with me, your eyes say. Why on earth would she? The man behind the register returns your card and places the sandwich and Pellegrino in a bag, which you take from the counter. What is wrong with you? This question gets stuck in your dreams.\n________________\nAnother friend tells you you have to learn not to absorb the world. She says sometimes she can hear her own voice saying silently to whomever\u2014you are saying this thing and I am not going to accept it. Your friend refuses to carry what doesn\u2019t belong to her. You take in things you don\u2019t want all the time. The second you hear or see some ordinary moment, all its intended targets, all the meanings behind the retreating seconds, as far as you are able to see, come into focus. Hold up, did you just hear, did you just say, did you just see, did you just do that? Then the voice in your head silently tells you to take your foot o your throat because just getting along shouldn\u2019t be an ambition.\n________________\nI knew whatever was in front of me was happening and then the police vehicle came to a screeching halt in front of me like they were setting up a blockade. Everywhere were ashes, a siren sounding and a stretched-out roar. Get on the ground. Get on the ground now. Then I just knew. \n\n\nAnd you are not the guy and still you t the description because there is only one guy who is always the guy tting the description. \n\n\nI left my client\u2019s house knowing I would be pulled over. I knew. I just knew. I opened my briefcase on the passenger seat, just so they could see. Yes ocer rolled around on my tongue, which grew out of a bell that could never ring because its emergency was a tolling I was meant to swallow.\n\n\n In a landscape drawn from an ocean bed, you can\u2019t drive yourself sane\u2014so angry you are crying. You can\u2019t drive yourself sane. This motion wears a guy out. Our motion is wearing you out and still you are not that guy.\n\n\nThen ashes, a siren, a stretched-out roar\u2014and you are not the guy and still you t the description because there is only one guy who is always the guy tting the description.\n\n\n\n\nGet on the ground. Get on the ground now. I must have been speeding. No, you weren\u2019t speeding. I wasn\u2019t speeding? You didn\u2019t do anything wrong. Then why are you pulling me over? Why am I pulled over? Put your hands where they can be seen. Put your hands in the air. Put your hands up.\n\n\nThen you are stretched out on the hood. Then cued. Get on the ground now.\u003cbr\u003e\u003cbr\u003eNo emotions annotated for this section.","marker":{"color":"#D3D3D3","size":0.1},"mode":"markers","showlegend":false,"x":[0.5],"y":[0.5],"type":"scatter"}],"layout":{"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"shapes":[{"fillcolor":"#D3D3D3","layer":"below","line":{"width":0},"opacity":1.0,"type":"rect","x0":0,"x1":1,"y0":0,"y1":1}],"xaxis":{"range":[0,1],"tickmode":"array","tickvals":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0],"ticktext":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"title":{"text":"Text Position (%)"}},"yaxis":{"visible":false},"margin":{"l":40,"r":40,"t":40,"b":40},"title":{"text":"Emotion Spectrum Analysis"},"height":150,"autosize":true}};
+            Plotly.newPlot('emotion-chart-container', plotlyData.data, plotlyData.layout);
+        });
+        </script>
+    </body>
+    </html>
+    
