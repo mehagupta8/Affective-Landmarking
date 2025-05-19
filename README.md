@@ -93,4 +93,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Acknowledgments
 
 - [Doccano](https://github.com/doccano/doccano) for the annotation framework
-- Plotly.js for the visualization library 
+- Plotly.js for the visualization library
+
+Citable using [![DOI](https://zenodo.org/badge/975172605.svg)](https://doi.org/10.5281/zenodo.15467834)
